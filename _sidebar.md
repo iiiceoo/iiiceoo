@@ -24,3 +24,4 @@
    - [YApi部署](/md/tool/yapi-deploy/yapi-deploy)
 - Daily
    - [工作一年所感](/md/daily/one-year/one-year)
+   - [记第一次社招](/md/daily/first-social-recruitment/first-social-recruitment)
