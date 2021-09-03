@@ -21,7 +21,7 @@
    - [网络策略（Network Policy）](/md/kubernetes/network-policy/network-policy)
    - [Service 与 Ingress](/md/kubernetes/service-ingress/service-ingress)
 - Tool
-   - [YApi部署](/md/tool/yapi-deploy/yapi-deploy)
+   - [YApi 部署](/md/tool/yapi-deploy/yapi-deploy)
 - Daily
-   - [工作一年所感](/md/daily/one-year/one-year)
-   - [记第一次社招](/md/daily/first-social-recruitment/first-social-recruitment)
+   <!-- - [工作一年所感](/md/daily/one-year/one-year) -->
+   <!-- - [记第一次社招](/md/daily/first-social-recruitment/first-social-recruitment) -->

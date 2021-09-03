@@ -86,7 +86,7 @@ mongod -f /usr/local/mongodb/conf/mongodb.conf
 mongod -f /usr/local/mongodb/conf/mongodb.conf –-shutdown
 ```
 
-或者在客户端中停止mongod 服务。
+或者在客户端中停止 mongod 服务。
 
 ```mongodb
 > use admin
@@ -114,7 +114,7 @@ mongo
 
 ![image-20200808152448014](./img/image008.png)
 
-这里并未看到 mongodb 初始的三个数据库，这是由于预先定义的配置文件 mongodb.conf 中已开启了**权限认证**，所以必须先为mongodb 添加相关用户，通过权限认证后即可看到相关数据库。
+这里并未看到 mongodb 初始的三个数据库，这是由于预先定义的配置文件 mongodb.conf 中已开启了**权限认证**，所以必须先为 mongodb 添加相关用户，通过权限认证后即可看到相关数据库。
 
 
 
