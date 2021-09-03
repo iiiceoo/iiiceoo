@@ -1,20 +1,12 @@
-# YApi部署
+# YApi 部署
 
->YApi 是一款高效、易用、功能强大的 api 管理软件，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API。本文将简要介绍YApi的部署流程。
-
-
-
-## 测试环境
-
-| IP             | CPU  | Mem  | OS         | APP                    |
-| -------------- | ---- | ---- | ---------- | ---------------------- |
-| 192.168.33.100 | 2C   | 2G   | Centos 7.5 | Nodejs，monggodb，YApi |
+>YApi 是一款高效、易用、功能强大的 API 管理软件，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API。本文简要的记录了 YApi 的部署流程。
 
 
 
-## Nodejs安装
+## Nodejs 安装
 
-访问nodejs官网，[下载最新安装包](https://nodejs.org/en/download/)。注意nodejs版本需7.6+。
+访问 nodejs 官网，下载最新的[安装包](https://nodejs.org/en/download/)。注意 nodejs 版本需 7.6+。
 
 ![image-20200808160253517](./img/image001.png)
 
@@ -29,7 +21,7 @@ mv node-v12.18.2-linux-x64 /usr/local/nodejs
 
 
 
-建立软连接。
+为 `node` 以及 `npm` 命令建立软连接。
 
 ```bash
 ln -s /usr/local/nodejs/bin/node /usr/local/bin/node
@@ -38,15 +30,15 @@ ln -s /usr/local/nodejs/bin/npm /usr/local/bin/npm
 
 
 
-在任何目录输入 node -v 显示版本号就安装完毕。
+执行 `node -v` 显示版本号即可。
 
 ![image-20200808151112665](./img/image002.png)
 
 
 
-## Mongodb安装
+## Mongodb 安装
 
-访问mongodb官网，[下载最新安装包](https://www.mongodb.com/try/download)。注意mongodb版本需2.6+。
+访问 mongodb 官网，下载最新[安装包](https://www.mongodb.com/try/download)。注意 mongodb 版本需 2.6+。
 
 ![image-20200808151250206](./img/image003.png)
 
@@ -65,7 +57,7 @@ mv mongodb-linux-x86_64-rhel70-4.2.8 /usr/local/mongodb
 
 
 
-新增数据、日志、配置目录，修改配置文件。
+新增数据、日志、配置目录，修改 mongodb.config 配置文件，添加如下内容。
 
 ```bash
 cd /usr/local/mongodb/
@@ -74,35 +66,27 @@ cd config/
 vim mongodb.config
 ```
 
-
-
-mongodb.config详情。
-
 ![image-20200808151610638](./img/image005.png)
 
 
 
-以指定配置文件启动mongodb，这里事先配置了bin目录的环境变量。
+以指定配置文件启动 `mongod`。
 
 ```bash
 mongod -f /usr/local/mongodb/conf/mongodb.conf
 ```
 
-
-
-启动成功显示。
-
 ![image-20200808151717736](./img/image006.png)
 
 
 
-若需要关闭mongod服务。
+若需要停止 mongod 服务。
 
 ```bash
 mongod -f /usr/local/mongodb/conf/mongodb.conf –-shutdown
 ```
 
-或在客户端中关闭mongod服务。
+或者在客户端中停止mongod 服务。
 
 ```mongodb
 > use admin
@@ -112,7 +96,7 @@ mongod -f /usr/local/mongodb/conf/mongodb.conf –-shutdown
 
 
 
-连接mongodb。
+连接 mongodb。
 
 ```bash
 mongo
@@ -130,11 +114,11 @@ mongo
 
 ![image-20200808152448014](./img/image008.png)
 
-可以看到，这里并未看到mongodb初始的三个数据库，这是由于之前定义的配置文件mongodb.conf中已开启了**权限认证**，所以这里先为mongodb添加用户，通过权限认证后方可看到相关数据库。
+这里并未看到 mongodb 初始的三个数据库，这是由于预先定义的配置文件 mongodb.conf 中已开启了**权限认证**，所以必须先为mongodb 添加相关用户，通过权限认证后即可看到相关数据库。
 
 
 
-在admin库创建一个超级用户，角色为userAdminAnyDatabase。
+在 admin 库创建一个超级用户，角色为 `userAdminAnyDatabase`。
 
 ```mongodb
 > use admin
@@ -145,7 +129,7 @@ mongo
 
 
 
-建立yapi库，作为后续YApi使用的数据库，同时也为它也建立一个管理员。
+建立 yapi 库，作为后续 YApi 使用的数据库，同时为其也建立一个管理员。
 
 ```mongodb
 > use yapi
@@ -154,11 +138,11 @@ mongo
 
 ![image-20200808153145158](./img/image010.png)
 
-这里选择为yapi用户赋`dbOwner`角色而不是普通的`readWrite`角色。原因是后续YApi部署时初始化表结构时有相关建立索引的操作，如果只是普通的readWrite角色可能由于权限不足，**无法创建索引而出错**。
+这里选择为 yapi 用户赋予 `dbOwner` 角色而并非普通的 `readWrite` 角色。原因是后续 YApi 部署时初始化表结构时存在相关**建立索引**的操作，普通的 `readWrite` 角色可能由于权限不足导致**无法创建索引而出错**。
 
 
 
-现在则能验证是否能通过权限认证而看到相关表信息。
+现在就可以通过权限认证进而看到相关表信息了。
 
 ```mongodb
 > use admin
@@ -168,21 +152,17 @@ mongo
 
 ![image-20200808153145158](./img/image011.png)
 
-这里看不到yapi库是由于yapi库中没有数据，mongodb的数据库只有在有**数据添加时才被真正创建**。
+注意，这里仍然看不到 yapi 库是由于 yapi 库中并没有数据，mongodb 中的数据库被设计为只有在有**数据被真正添加时才会创建**。
 
 
 
-## YApi部署
+## YApi 部署
 
-相关地址如下，官方部署文档中的命令行部署方式执行YApi部署。
-
-[官方部署文档]: https://hellosean1025.github.io/yapi/devops/index.html
-[github地址]: https://github.com/YMFE/yapi
-[gitee地址]: https://gitee.com/mirrors/YApi
+这里采用[官方部署文档](https://hellosean1025.github.io/yapi/devops/index.html)中的命令行方式进行 YApi 部署。
 
 
 
-创建YApi目录，git拉取项目。
+创建 YApi 目录，git 拉取项目。
 
 ```bash
 mkdir /usr/local/yapi
@@ -192,7 +172,7 @@ git clone https://gitee.com/mirrors/YApi vendors
 
 
 
-修改YApi配置文件config.json。
+修改 YApi 配置文件 config.json。
 
 ```bash
 cp vendors/config_example.json ./config.json
@@ -212,11 +192,11 @@ npm install --production --registry https://registry.npm.taobao.org
 
 ![image-20200808153744445](./img/image013.png)
 
-有相关报错，这里提示mysql用户没有权限去创建相关目录，这是由于**npm命令禁止root操作**，显然这里自动切换至mysql用户来执行命令了而导致权限不够。可在npm命令后加上`--unsafe-perm`参数解决该问题，即忽略这种安全策略，可用root用户执行npm命令。
+这里有报错，提示 mysql 用户没有权限去创建相关目录，这是由于**npm 命令禁止直接 root 操作**，所以此时自动切换成了 mysql 用户来执行命令，导致权限不够。可在 npm 命令后加上 `--unsafe-perm` 来忽略这种安全策略。
 
 
 
-npm启动YApi服务。
+npm 启动 YApi 服务。
 
 ```bash
 npm run install-server
@@ -224,21 +204,19 @@ npm run install-server
 
 ![image-20200808154333241](./img/image014.png)
 
-服务启动成功，初始管理员账号：`admin@admin.com`，密码：`ymfe.org`，服务运行在`192.168.33.100:3000`。
 
 
-
-访问YApi。
+访问 YApi。
 
 ![image-20200808154659862](./img/image015.png)
 
 
 
-同时可见yapi目录下已生成了初始化锁。
+同时可见 yapi 目录下已生成了初始化锁。
 
 ![image-20200808154714919](./img/image016.png)
 
-若需要重新初始化yapi服务，请先删除该文件`init.lock`，同时删除mongodb中yapi库的所有数据。然后**重新在vendors目录下！！！**执行`npm run install-server`即可。
+若需要重新初始化 yapi 服务，请先删除该文件 `init.lock`，同时清空 mongodb 中 yapi 库的所有数据。最后**重新在 vendors 目录下**执行 `npm run install-server` 即可。
 
 
 
@@ -246,19 +224,15 @@ npm run install-server
 
 ![image-20200808155042072](./img/image017.png)
 
-连接mongodb认证失败，这是由于mongodb.conf默认的`bind_ip=127.0.0.1`配置项。这时若yapi配置文件config.josn中的db配置servername为静态IP 192.168.33.100则报上述错误。
+连接 mongodb 认证失败，这是由于 mongodb.conf 默认的 `bind_ip=127.0.0.1`。而此时上文中 yapi 配置文件 config.josn 中的 `servername=192.168.33.100` 配置项有误。
 
-可以采用更改`bind_ip=0.0.0.0`即不设置mongodb的远程连接IP限制解决该问题，这里即采用的这种方法。当然更改config.json中的`servername=127.0.0.1`亦可。
+可以采用更改 `bind_ip=0.0.0.0` 即不限制 mongodb 的远程连接来解决这个问题。当然也可以修改 config.json 中 `servername=127.0.0.1` 亦可。
 
 
 
 ## 后台运行
 
-之前YApi服务均在前台运行，且切断终端连接服务也随之停止。这里可采用pm2对node的应用进行管理，同时也可用nohup + &命令解决这个问题。这里采用nohup。
-
-
-
-nohup + &后台不挂断运行。
+这里可以采用 pm2 对 node 来进行管理，也可以简单点，直接使用 `nohup + &` 即可。
 
 ```bash
 nohup node vendor/server/app.js &
@@ -268,20 +242,21 @@ nohup node vendor/server/app.js &
 
 
 
-在执行nohup命令的文件夹下生成了nohup.out文件。
+在执行 `nohup` 命令的文件夹下生成了 nohup.out 文件。
 
 ![image-20200808155527394](./img/image019.png)
 
 
 
-exit安全退出终端，检查YApi是否还能访问。
+退出终端，检查 YApi 是否还能访问。
 
 ![image-20200808155538849](./img/image020.png)
 
-这里注意，切记用`exit`命令退出终端，**直接叉掉终端可能导致nohup失效**。
+这里最好使用 `exit` 命令结束 Shell，直接叉掉终端有 mobaxterm 的谜之 BUG 导致 nohup 失效。
 
 
 
-YApi仍正常访问，部署完成。
+没啥问题，部署成功。
 
 ![image-20200808155621166](./img/image021.png)
+
