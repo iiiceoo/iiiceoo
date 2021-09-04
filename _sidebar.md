@@ -3,7 +3,7 @@
 - Redis
    - [Redis Keepalived HA](/md/redis/keepalived-ha/keepalived-ha)
    - [Redis 主从双中心容灾](/md/redis/ms-dr/ms-dr)
-   - [Redis Cluster双中心容灾](/md/redis/cluster-dr/cluster-dr)
+   - [Redis Cluster 双中心容灾](/md/redis/cluster-dr/cluster-dr)
    - [Redis web-cli](/md/redis/web-cli/web-cli)
    - [Redis 实例自动发现](/md/redis/redis-discover/redis-discover)
    - [Jedis 3.2 哨兵密码 BUG](/md/redis/sentinel-passwd-bug/sentinel-passwd-bug)
@@ -15,7 +15,7 @@
    - [Kubernetes API](/md/kubernetes/k8s-api/k8s-api)
    - [容器探针](/md/kubernetes/probe/probe)
    - [单机容器网络](/md/kubernetes/container-network/container-network)
-   - [容器跨主网络](/md/kubernetes/flannel/flannel)
+   - [Flannel](/md/kubernetes/flannel/flannel)
    - [CNI](/md/kubernetes/cni/cni)
    - [三层网络方案](/md/kubernetes/calico/calico)
    - [网络策略（Network Policy）](/md/kubernetes/network-policy/network-policy)
