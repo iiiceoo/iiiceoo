@@ -12,26 +12,48 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: 'iiiceoo',
-      repo: '',
+      name: "<p>🌵 ZQS' Gossip</p>",
+    //   themeColor: '#007be8',
       auto2top: true,
+      maxLevel: 3,
+      loadNavbar: true,
+      mergeNavbar: true,
+      externalLinkTarget: '_blank',
       search: {
-        maxAge: 86400000,
         paths: 'auto',
         placeholder: 'ฅʕᵔᴥᵔʔ',
         noData: 'ʕ˙Ⱉ˙ʔ ?',
-        depth: 2
-      },
-      loadSidebar: true,
-      subMaxLevel: 3
+        depth: 3,
+        maxAge: 86400000
+      }
     }
+
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+
+  <!-- 代码高亮 -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.js"></script>
+
+  <!-- 回到顶部 -->
+  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/jquery.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/jquery.goup.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $.goup({
+        trigger: 100,
+        bottomOffset: 52,
+        locationOffset: 25,
+        // title: 'TOP',
+        titleAsText: true
+      });
+    });
+  </script>
+
 </body>
 </html>
