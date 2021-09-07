@@ -10,7 +10,7 @@
 
 在了解 RBAC 之前，先来聊聊 Kubernetes API 请求从发起到持久化入库的一个流程，可以看到，RBAC 负责的**授权工作（Authorization）**仅是图中的第二步。一般的，这些请求通常分为两类：
 
-- 人机交互，即大家非常熟悉的 kubectl 交互 API Server 的过程。
+- 人机交互，即 kubectl 交互 API Server 的过程。
 - *Pod* 中的业务逻辑与 API Server 之间的交互。
 
 ![image-20210608142528182](./img/image-20210608142528182.png)
@@ -68,9 +68,9 @@
 
 对于认证来说，首要的就是确定请求的发起方是谁，并最终通过认证过程将其转换为一个**系统可识别的用户模型**，其可用于之后的鉴权等。需要注意的是，Kubernetes 自身是不具备用户管理能力的。
 
-如何理解用户管理能力？即我们无法像操作 *Pod* 一样，通过 API 的方式创建删除一个”用户实例“。同样的，我们也无法在 ETCD 中找到用户对应的存储对象。
+如何理解用户管理能力？即用户无法像操作 *Pod* 一样，通过 API 的方式创建删除一个”用户实例“。同样的，用户也无法在 ETCD 中找到用户对应的存储对象。
 
-那么在 Kubernetes 的访问控制流程中，用户模型是如何产生的呢？答案就在请求方的访问控制凭证中，也就是我们平时使用的 kubeconfig 中的证书，或者是 *Pod* 中引入的 *ServerAccount*。在经过 Kubernetes 认证流程之后，API Server 会将请求凭证中的用户身份转化为诸如 *User* 和 *Groups* 这样的用户模型。在随后的鉴权操作和准入控制流程中，API Server 会再次使用到这些用户模型实例。
+那么在 Kubernetes 的访问控制流程中，用户模型是如何产生的呢？答案就在请求方的访问控制凭证中，比如 kubeconfig 中所包含的证书，或者是 *Pod* 中引入的 *ServerAccount*。在经过 Kubernetes 认证流程之后，API Server 会将请求凭证中的用户身份转化为诸如 *User* 和 *Groups* 这样的用户模型。在随后的鉴权操作和准入控制流程中，API Server 会再次使用到这些用户模型实例。
 
 
 
@@ -128,7 +128,7 @@ openssl x509 -in apiserver.crt -noout -text
 
 Kubernetes 集群本身就提供了证书签发的 API，用于向 CA 请求并获取 X.509 证书。*CertificateSigningRequest*（*CSR*）资源用来向指定的签名者申请证书签名。
 
-创建 *CSR* 之前，我们需要先借助 OpenSSL 等工具生成私钥。
+创建 *CSR* 之前，需要先借助 OpenSSL 等工具生成私钥。
 
 ```bash
 openssl genrsa -out test.key 2048
@@ -233,7 +233,7 @@ kubectl get secret/nfs-client-provisioner-token-8lnmq -o yaml
 
 ## RBAC
 
-当一个请求在完成 API Server 认证后，便可认为它是一个合法用户，之后便进入 API 请求访问控制的第二步 Kubernetes 鉴权。API Server 本身支持多种鉴权方式，我们主要介绍在安全上推荐的鉴权方式 RBAC。
+当一个请求在完成 API Server 认证后，便可认为它是一个合法用户，之后便进入 API 请求访问控制的第二步 Kubernetes 鉴权。API Server 本身支持多种鉴权方式，这里主要介绍在安全上推荐的鉴权方式 RBAC。
 
 
 
@@ -251,7 +251,7 @@ RBAC 中三个最核心的要素即**主体（Subject）**，**对象（API Reso
 
 ### Role & RoleBinding
 
-我们从 *Role* 开始了解，来看一份简单的 *Role* 资源清单。
+从 *Role* 开始，先来看一份简单的 *Role* 资源清单。
 
 ```yaml
 kind: Role
@@ -271,7 +271,7 @@ rules:
 
 
 
-而 *RoleBinding* 则用于来关联“被作用者”与 *Role*，“被作用者”就是我们之前所了解的 Kubernetes 认证过程中所产生的用户模型。
+而 *RoleBinding* 则用于来关联“被作用者”与 *Role*，“被作用者”就是上文中提到的 Kubernetes 认证过程中所产生的用户模型。
 
 ```yaml
 kind: RoleBinding
@@ -291,7 +291,7 @@ roleRef:
 
 其中，`subjects` 字段即定义了“被作用者”，其类型为 *User*，之前已经提到过了，它只是一个逻辑概念，并不是真正的 Kubernetes API 对象。同样的。
 
-`roleRef` 字段则通过名字引用了我们刚定义的 *Role* 对象，从而构建了“被作用者”和“角色”之间的绑定关系。需要再次提醒的是，*Role* 和 *RoleBinding* 同为 namespaced 对象（Namespaced Object），它们对权限的限制规则仅在其自身的 *Namespace* 内有效，`roleRef`  字段也只能引用当前 *Namespace* 里的 *Role* 对象。
+`roleRef` 字段则通过名字引用了上文中刚定义的 *Role* 对象，从而构建了“被作用者”和“角色”之间的绑定关系。需要再次提醒的是，*Role* 和 *RoleBinding* 同为 namespaced 对象（Namespaced Object），它们对权限的限制规则仅在其自身的 *Namespace* 内有效，`roleRef`  字段也只能引用当前 *Namespace* 里的 *Role* 对象。
 
 
 
@@ -383,7 +383,7 @@ roleRef:
 
 同样的，Kubernetes 也有用户组 *Group* 的概念。将 *RoleBinding* 和 *ClusterRoleBinding* 中的 `Kind` 字段设置为 *Group* 即可，之前的X.509 证书认证方式中的 O 其实就与之对应。
 
-实际上，一个 *ServiceAccount* 在 Kubernetes 中对应的完整 *User* 名为：`system:serviceaccount:<ServiceAccount 名字>`，其对应的内置 *Group* 名为：`system:serviceaccounts:<namespace 名字>`。所以我们可以这样定义上述 *RoleBinding* 中的  `subjects`。
+实际上，一个 *ServiceAccount* 在 Kubernetes 中对应的完整 *User* 名为：`system:serviceaccount:<ServiceAccount 名字>`，其对应的内置 *Group* 名为：`system:serviceaccounts:<namespace 名字>`。所以可以这样定义上述 *RoleBinding* 中的  `subjects`。
 
 ```yaml
 subjects:
@@ -430,5 +430,4 @@ kubectl describe clusterrole cluster-admin -n kube-system
 ```
 
 ![image-20210610102017816](./img/image-20210610102017816.png)
-
 
