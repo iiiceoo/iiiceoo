@@ -120,7 +120,7 @@ openssl x509 -in apiserver.crt -noout -text
 | controller-manager | system:kube-controller-manager |              |
 | scheduler          | system:kube-scheduler          |              |
 | kube-proxy         | system:kube-proxy              |              |
-| kubelet            | system:node:\$(node-hostname)  | system:nodes |
+| kubelet            | system\:node:$(node-hostname)  | system:nodes |
 
 
 
@@ -265,7 +265,7 @@ rules:
   verbs: ["get", "watch", "list"]
 ```
 
-首先，很自然的发现，*Role* 是 namespaced 的，即它仅能在特定的 *Namespace* 下生效，本例中为 mynamespace。若未指定 `namespace` 字段，则默认为 default。 
+首先，很自然的发现，*Role* 是 namespaced 的，即它仅能在特定的 *Namespace* 下生效，本例中为 mynamespace。若未指定 `namespace` 字段，则默认为 default。
 
 清单中的 `rules` 字段，就是它所定义的权限规则。此处的语义为：允许“被作用者”，对 mynamespace 下面的 *Pod* ，进行 `GET`，`WATCH` 和 `LIST` 操作。注意 *pod* 属于 API Core Groups，核心 API 无组概念，所以 `apiGroups` 字段为一对空引号。
 
