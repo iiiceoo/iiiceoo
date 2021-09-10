@@ -120,7 +120,7 @@ openssl x509 -in apiserver.crt -noout -text
 | controller-manager | system:kube-controller-manager |              |
 | scheduler          | system:kube-scheduler          |              |
 | kube-proxy         | system:kube-proxy              |              |
-| kubelet            | system\:node:$(node-hostname)  | system:nodes |
+| kubelet            | system:node:$(node-hostname)  | system:nodes |
 
 
 

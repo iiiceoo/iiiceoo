@@ -6,6 +6,8 @@
 
 # Redis
 
+> Redis 彩笔一个。
+
 - [Redis Keepalived HA](/md/redis/keepalived-ha/keepalived-ha)
 - [Redis 主从双中心容灾](/md/redis/ms-dr/ms-dr)
 - [Redis Cluster 双中心容灾](/md/redis/cluster-dr/cluster-dr)
@@ -23,6 +25,8 @@
 
 
 # Kubernetes
+
+> 深入剖析 Kubernetes（张磊）+ CNCF x Alibaba 云原生技术公开课 + 《Kubernetes in Action》+ Kubernetes 官方文档，摘抄总结。
 
 - [控制器模式](/md/kubernetes/controller/controller)
 - [数据卷](/md/kubernetes/volume/volume)
@@ -46,5 +50,7 @@
 
 # Daily
 
-- [工作一年所感](/md/daily/one-year/one-year)
-- [记第一次社招](/md/daily/first-social-recruitment/first-social-recruitment)
+> TODO
+
+<!-- - [工作一年所感](/md/daily/one-year/one-year) -->
+<!-- - [记第一次社招](/md/daily/first-social-recruitment/first-social-recruitment) -->
