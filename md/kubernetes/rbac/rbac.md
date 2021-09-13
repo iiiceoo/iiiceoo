@@ -381,7 +381,7 @@ roleRef:
 
 
 
-同样的，Kubernetes 也有用户组 *Group* 的概念。将 *RoleBinding* 和 *ClusterRoleBinding* 中的 `Kind` 字段设置为 *Group* 即可，之前的X.509 证书认证方式中的 O 其实就与之对应。
+同样的，Kubernetes 也有用户组 *Group* 的概念。将 *RoleBinding* 和 *ClusterRoleBinding* 中的 `Kind` 字段设置为 *Group* 即可，之前的 X.509 证书认证方式中的 O 其实就与之对应。
 
 实际上，一个 *ServiceAccount* 在 Kubernetes 中对应的完整 *User* 名为：`system:serviceaccount:<ServiceAccount 名字>`，其对应的内置 *Group* 名为：`system:serviceaccounts:<namespace 名字>`。所以可以这样定义上述 *RoleBinding* 中的  `subjects`。
 
