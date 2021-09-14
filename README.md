@@ -34,10 +34,6 @@
 - [Kubernetes API](/md/kubernetes/k8s-api/k8s-api)
 - [容器探针](/md/kubernetes/probe/probe)
 - [Docker 容器网络](/md/kubernetes/container-network/container-network)
-- [Flannel](/md/kubernetes/flannel/flannel)
-- [CNI](/md/kubernetes/cni/cni)
-- [三层网络方案](/md/kubernetes/calico/calico)
-- [网络策略（Network Policy）](/md/kubernetes/network-policy/network-policy)
 - [Service 与 Ingress](/md/kubernetes/service-ingress/service-ingress)
 
 
